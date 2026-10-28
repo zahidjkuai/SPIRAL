@@ -34,13 +34,18 @@ SPIRAL represents the flow with a one-hidden-layer neural network whose hidden w
 
 ## Benchmarking in Lid Driven Cavity Against CFD Result
 <img width="4021" height="2604" alt="Fig_mesh_domain" src="https://github.com/user-attachments/assets/9c04872a-f9f8-4056-8ce6-0e7875703e48" />
+<img width="3116" height="1436" alt="Fig_injection_setup" src="https://github.com/user-attachments/assets/591820b5-01bf-4a94-962a-690bac2eaa66" />
 <img width="2973" height="1535" alt="Fig_3D_velocity_isometric" src="https://github.com/user-attachments/assets/cd78c541-19a1-4c6e-9f96-4342f61d2c56" />
 <img width="3322" height="1450" alt="Fig_centrelines" src="https://github.com/user-attachments/assets/b5ccae07-989f-4495-9778-91b555aa20c7" />
 <img width="3839" height="3603" alt="Fig_vortices_vectors_midsection" src="https://github.com/user-attachments/assets/d5e6019c-fdd8-4495-8540-a079a61a5091" />
 <img width="5212" height="1754" alt="Fig_vortices_midsection" src="https://github.com/user-attachments/assets/13933a11-1766-4805-b202-e3854b8b457e" />
 <img width="2528" height="1479" alt="phi_sequence" src="https://github.com/user-attachments/assets/8ca35d0c-d7dc-4eb1-a48f-2a21e9793d81" />
+<img width="3928" height="1304" alt="Fig_computational_cost" src="https://github.com/user-attachments/assets/109cb6ff-10d9-4356-8ef3-affe97ec060e" />
+<img width="2550" height="714" alt="mixing_index" src="https://github.com/user-attachments/assets/3a1b09f5-f3f0-4d13-ba1c-51df4b962589" />
+<img width="986" height="951" alt="cog_trajectory" src="https://github.com/user-attachments/assets/d60bedda-2b50-4838-a097-d10c9ae8e59b" />
 
-<img width="3116" height="1436" alt="Fig_injection_setup" src="https://github.com/user-attachments/assets/591820b5-01bf-4a94-962a-690bac2eaa66" />
+
+
 
 
 ## How it works
