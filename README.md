@@ -32,6 +32,17 @@ SPIRAL represents the flow with a one-hidden-layer neural network whose hidden w
 | **Verified** | Matches a classic finite-difference solve of the same equations to round-off; 2.1 % from Ghia et al. (1982) at Re = 100 on a 24×24 mesh, error falling as 1/N². |
 | **Full pipeline** | Transient 3-D flow (BDF2) → passive-scalar transport (second network, conservative FV, linear upwind) → mixing index, centre of gravity, kinetic energy, cost report. |
 
+## Benchmarking in Lid Driven Cavity Against CFD Result
+<img width="4021" height="2604" alt="Fig_mesh_domain" src="https://github.com/user-attachments/assets/9c04872a-f9f8-4056-8ce6-0e7875703e48" />
+<img width="2973" height="1535" alt="Fig_3D_velocity_isometric" src="https://github.com/user-attachments/assets/cd78c541-19a1-4c6e-9f96-4342f61d2c56" />
+<img width="3322" height="1450" alt="Fig_centrelines" src="https://github.com/user-attachments/assets/b5ccae07-989f-4495-9778-91b555aa20c7" />
+<img width="3839" height="3603" alt="Fig_vortices_vectors_midsection" src="https://github.com/user-attachments/assets/d5e6019c-fdd8-4495-8540-a079a61a5091" />
+<img width="5212" height="1754" alt="Fig_vortices_midsection" src="https://github.com/user-attachments/assets/13933a11-1766-4805-b202-e3854b8b457e" />
+<img width="2528" height="1479" alt="phi_sequence" src="https://github.com/user-attachments/assets/8ca35d0c-d7dc-4eb1-a48f-2a21e9793d81" />
+
+<img width="3116" height="1436" alt="Fig_injection_setup" src="https://github.com/user-attachments/assets/591820b5-01bf-4a94-962a-690bac2eaa66" />
+
+
 ## How it works
 
 <img src="docs/algorithm.png" width="900" alt="Algorithm and glossary">
