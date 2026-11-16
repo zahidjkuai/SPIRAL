@@ -69,7 +69,8 @@ descent, SPIRAL does with *frozen random features + ~15 exact linear solves.*
 
 ### Where do the weights come from?
 
-![Random frozen weights and the step](images/step2_combined_full.png)
+<img width="1672" height="941" alt="step2" src="https://github.com/user-attachments/assets/8ae6c8f8-2b28-4ebc-b9a0-f9de80db4ed9" />
+
 
 *Figure 3 — One node, start to finish: random weights → a line in the cavity → signed distance →
 tanh “step” → one number → the feature row.*
@@ -85,7 +86,13 @@ tanh “step” → one number → the feature row.*
 
 ### The final result of the hidden layer
 
-![The finished table Phi](images/step2_final_result_phi.png)
+<table>
+  <tr>
+    <td><img alt="step22" src="https://github.com/user-attachments/assets/fc21a2fb-d41a-4500-a30c-9f15863d4a88" /></td>
+    <td><img alt="step21" src="https://github.com/user-attachments/assets/cb89440a-e0d1-4481-bde3-3afc3abdf465" /></td>
+  </tr>
+</table>
+
 
 *Figure 4 — The hidden layer’s entire output: one big finished table Φ.*
 
@@ -101,7 +108,8 @@ millions of node evaluations.*
 
 ## Step 3 · Output: the weighted sum
 
-![Step 3: weighted sum to field](images/step3_output.png)
+<img width="1672" height="941" alt="step3" src="https://github.com/user-attachments/assets/02acea18-b392-418e-8643-f8b1198fb790" />
+
 
 *Figure 6 — Mixing the feature row with the unknowns z produces the physical field.*
 
@@ -115,7 +123,8 @@ millions of node evaluations.*
 
 ## Step 4 · Residual: the physics check
 
-![Step 4: building the residual](images/step4_residual_ghost_correct.png)
+<img width="1312" height="1199" alt="step4" src="https://github.com/user-attachments/assets/4f04c39e-8f1c-4816-affb-6b02b5884e59" />
+
 
 *Figure 7 — The residual at one point: time + convection + viscous must sum to zero. Note the ghost
 cell sitting above the lid — the mirror rule feeds the wall condition into the viscous term.*
@@ -150,7 +159,9 @@ Repeated at every point, r is a **vector of thousands of numbers** — target: a
 
 ## Step 5 · Newton: driving the residual to zero
 
-![Step 5: computation and variables](images/step5_computation_glossary.png)
+<img width="1448" height="1086" alt="step51" src="https://github.com/user-attachments/assets/5413b1bb-0147-4b5a-8970-3d3878fb4c92" />
+<img width="1448" height="1086" alt="step5" src="https://github.com/user-attachments/assets/47621634-2fb4-450c-9897-c620ae354d81" />
+
 
 *Figure 9 — The Newton computation line by line, with every variable explained.*
 
@@ -167,7 +178,8 @@ No learning rate, no epochs, no training data — each iteration is one exact li
 
 ### What it looks like inside the domain
 
-![Domain healing](images/step5_domain_healing.png)
+<img width="1448" height="1086" alt="step52" src="https://github.com/user-attachments/assets/e2b37fbb-6bb9-4f41-86d7-99ebda0b6faf" />
+
 
 *Figure 10 — The flow field healing across Newton iterations: the misplaced vortex of the first
 guess reorganizes into the correct cavity flow while the residual maps fade to zero.*
@@ -181,7 +193,8 @@ convection and viscous terms cancel **at every point, including the ghost-fed wa
 
 ## The whole pipeline in one view
 
-![SPIRAL in one view](images/spiral_whole_process_one_view.png)
+<img width="1916" height="821" alt="insight" src="https://github.com/user-attachments/assets/a30bf18f-6247-4459-a9a7-08bdb07d6f58" />
+
 
 *Figure 11 — SPIRAL end to end: grid point → frozen features → weighted sum → residual → Newton.
 The “network” is never trained; the physics residual defines the problem; Newton solves it.*
