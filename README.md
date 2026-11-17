@@ -11,7 +11,8 @@
 ![GPU](https://img.shields.io/badge/runs%20on-Colab%20T4-black)
 ![Data](https://img.shields.io/badge/training%20data-none-black)
 
-<img src="docs/overview.png" width="900" alt="SPIRAL-3D overview">
+<img width="4488" height="5433" alt="SPIRAL_full_explanation" src="https://github.com/user-attachments/assets/7eee4f8c-eb08-4a51-abf5-326bb476102b" />
+
 
 </div>
 
