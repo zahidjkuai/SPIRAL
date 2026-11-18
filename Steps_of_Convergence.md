@@ -62,42 +62,41 @@ descent, SPIRAL does with *frozen random features + ~15 exact linear solves.*
 
 ## Step 2 · Hidden layer: the frozen random features
 
-### Where do the weights come from?
+### The twist: nobody trains these weights
 
-<img width="1672" height="941" alt="step2" src="https://github.com/user-attachments/assets/8ae6c8f8-2b28-4ebc-b9a0-f9de80db4ed9" />
+<img alt="step2" src="https://github.com/user-attachments/assets/8ae6c8f8-2b28-4ebc-b9a0-f9de80db4ed9" />
 
+*Figure 3 — One node's whole life: dice → a random line in the cavity → distance → the tanh "step" → one number into a row.*
 
-*Figure 3 — One node, start to finish: random weights → a line in the cavity → signed distance →
-tanh “step” → one number → the feature row.*
+- **wₖ and bₖ are rolled like dice once** (fixed seed) and **frozen forever**. Each of the 5,953 nodes
+  gets its own random draw — and that is the entire "training" of the hidden layer.
+- Each draw places a **random straight line** through the cavity: s = wₖ·x\* + bₖ tells
+  *which side of the line, and how far* our point x\* is.
+- tanh(s) is **"the step"**: deep on the − side → ≈ −1, deep on the + side → ≈ +1, on the line → 0.
+  The slope |wₖ| decides how sharp the gradient between the two worlds is.
+- Repeat for all 5,953 nodes and their answers fill one row — **that row is everything the hidden
+  layer will ever say about x\*.**
 
-- **wₖ and bₖ are drawn at random once** (fixed seed) and **frozen forever** — never trained.
-  Each of the thousands of nodes has its own random (wₖ, bₖ).
-- Geometrically, wₖ and bₖ place a **random straight line** in the cavity; the value
-  s = wₖ·x\* + bₖ measures *which side of the line, and how far* the query point x\* is.
-- tanh(s) is **“the step”**: far on the − side → ≈ −1, far on the + side → ≈ +1, on the line → 0,
-  with a smooth blend whose steepness is set by |wₖ|.
-- The input x\* = (x, y, z) is the **position of the query point** — not a property of the node.
-  The node is a function; x\* is where we evaluate it.
-
-### The final result of the hidden layer
+### And the whole layer collapses into one table
 
 <table>
   <tr>
-    <td><img alt="step22" src="https://github.com/user-attachments/assets/fc21a2fb-d41a-4500-a30c-9f15863d4a88" /></td>
-    <td><img alt="step21" src="https://github.com/user-attachments/assets/cb89440a-e0d1-4481-bde3-3afc3abdf465" /></td>
+    <td><img alt="one matrix multiply" src="https://github.com/user-attachments/assets/cb89440a-e0d1-4481-bde3-3afc3abdf465" /></td>
+    <td><img alt="the finished table Phi" src="https://github.com/user-attachments/assets/fc21a2fb-d41a-4500-a30c-9f15863d4a88" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>How it's made: one matrix multiply</b></td>
+    <td align="center"><b>What you get: the finished table Φ</b></td>
   </tr>
 </table>
 
+*Figure 4 — 53 million numbers, and not one of them learned: Φ = tanh(XW + b), computed once at startup, stored forever.*
 
-*Figure 4 — The hidden layer’s entire output: one big finished table Φ.*
-
-Every node asked about every point → **Φ = tanh(XW + b)**, a table of *(number of points) ×
-(number of nodes)* entries, **computed once and stored**. Nothing is trained.
-
-![One matrix multiply](images/step2_one_matrix_multiply.png)
-
-*Figure 5 — Why Φ is free: it is a single matrix multiply X × W (+ bias, + tanh), not a loop over
-millions of node evaluations.*
+> **The story so far:** we handed the network only coordinates (Step 1). Out of pure randomness it built
+> a dictionary of 5,953 smooth "steps" — every possible way to slice the cavity in two. Asking the whole
+> dictionary about every point takes **a single matrix multiply**. The hidden layer's job is already done,
+> and no gradient ever touched it. The only question left: *how much of each step do we need?* — that is z,
+> and Step 3 is where it enters.
 
 ---
 
