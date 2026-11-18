@@ -100,18 +100,27 @@ descent, SPIRAL does with *frozen random features + ~15 exact linear solves.*
 
 ---
 
-## Step 3 · Output: the weighted sum
+## Step 3 · Output: the weighted sum — where z takes the stage
 
-<img width="1672" height="941" alt="step3" src="https://github.com/user-attachments/assets/02acea18-b392-418e-8643-f8b1198fb790" />
+<img alt="step3" src="https://github.com/user-attachments/assets/02acea18-b392-418e-8643-f8b1198fb790" />
 
+*Figure 6 — One row, one set of weights, one sum: 5,953 ready numbers become the physical field A — and the only unknowns z finally appear.*
 
-*Figure 6 — Mixing the feature row with the unknowns z produces the physical field.*
+- Take the feature row Φ(x\*) from Step 2, multiply each entry by its own weight zₖ, and
+  **add everything**: A(x\*) = Σ zₖ aₖ. That single sum is the stream-function-like potential at x\*.
+- **z is the ONLY unknown in the entire method** — 3 × P = 17,859 numbers. We never chose them,
+  trained them, or guessed them: Step 5 will solve for them.
+- Do the same sum at every point and the **whole flow field A(x) emerges** — the vortex you see
+  in the figure is literally built out of frozen random steps, mixed by z.
+- The velocity is **not** another network output: it comes from a discrete curl, u = ∇ × A.
+  Consequence: **∇·u = 0 exactly, for any z, always**. Incompressibility is baked into the
+  architecture — no pressure equation, no penalty term, no constraint to enforce.
 
-- Take the row Φ(x\*) from Step 2 and form **A(x\*) = Σ zₖ aₖ** — one scalar per component of the
-  vector potential.
-- **z is the ONLY unknown** in the whole method (3 × P numbers for the flow network).
-- Velocity comes from a **discrete curl, u = C·A**, so **∇·u = 0 exactly for any z** — the output
-  is divergence-free by construction, and the pressure never appears.
+> **The story so far:** coordinates in (Step 1), a frozen dictionary of random steps (Step 2),
+> and now a recipe — "take this much of each step" — written in 17,859 numbers called z.
+> Any z already gives a divergence-free flow. But a *divergence-free* flow is not yet a *correct* flow:
+> with the wrong z, the physics books don't balance. Checking whether they do is Step 4's job —
+> and it has a verdict ready: **r = −0.18 ≠ 0. Wrong.**
 
 ---
 
