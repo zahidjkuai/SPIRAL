@@ -175,32 +175,48 @@ viscous +0.488 → **r = −0.178 ≠ 0. Physics violated.** After Newton: +0.02
 > every accusation reads zero. That judge has a 400-year-old name: **Newton. Step 5.**
 
 ---
+## Step 5 · Newton: the judge delivers
 
-## Step 5 · Newton: driving the residual to zero
+<img alt="step51" src="https://github.com/user-attachments/assets/5413b1bb-0147-4b5a-8970-3d3878fb4c92" />
 
-<img width="1448" height="1086" alt="step51" src="https://github.com/user-attachments/assets/5413b1bb-0147-4b5a-8970-3d3878fb4c92" />
-<img width="1448" height="1086" alt="step5" src="https://github.com/user-attachments/assets/47621634-2fb4-450c-9897-c620ae354d81" />
+*Figure 7 — Newton in one view: follow the tangent to zero (left), loop it (right), never touch the
+giant Jacobian (middle) — and watch the residual free-fall 16 orders of magnitude in ~15 solves (bottom).*
 
+- **The 1D idea:** pretend the residual curve is its own tangent line, and jump straight to where
+  that tangent hits zero. Repeat. Our z is 17,859 numbers instead of one — the idea is identical.
+- **The trick that makes it affordable:** the true sensitivity J = S·Φ is an 8,930 × 17,859
+  monster — so it is **never built**. Everything is compressed into the small kernel matrix
+  K = S(ΦΦᵀ)Sᵀ + λI (8,930 × 8,930), solved by Cholesky, then lifted back to the full correction
+  Δz = ΦᵀSᵀα.
+- **The bill:** ~15 iterations, one linear solve each. No learning rate, no epochs, no training
+  data — and quadratic convergence means the error roughly *squares* every iteration.
 
-*Figure 9 — The Newton computation line by line, with every variable explained.*
+<img alt="step5" src="https://github.com/user-attachments/assets/47621634-2fb4-450c-9897-c620ae354d81" />
+
+*Figure 8 — The same computation zoomed to bookkeeping level: five numbered moves per iteration
+(left) and every single variable named and explained in plain words (right).*
 
 One iteration, in plain words:
 
-1. **Compute r(z)** at all points (Step 4).
-2. **Never build the Jacobian** J = S·Φ (huge and rectangular). Instead compress it:
-   G = ΦΦᵀ, K = S·G·Sᵀ + λI — a small, symmetric, positive-definite system.
-3. **Solve Kα = −r** by Cholesky — the one expensive step.
-4. **Lift back: Δz = ΦᵀSᵀα**, update z ← z + Δz.
-5. Recompute r and repeat — about **15 iterations** thanks to quadratic convergence.
+1. **Compute r(z)** at all 8,930 points (Step 4's courtroom).
+2. **Assemble the small system:** G = ΦΦᵀ, then K = S·G·Sᵀ + λI — symmetric, positive-definite, safe.
+3. **Solve Kα = −r** by Cholesky — the one expensive step. α is just a helper, a clever detour.
+4. **Lift back:** Δz = ΦᵀSᵀα → update z ← z + Δz.
+5. **Recompute r.** All ≈ 0? Done — move to the next time step. Otherwise loop.
 
-No learning rate, no epochs, no training data — each iteration is one exact linear solve.
+> **The verdict, delivered:** after ~15 exact linear solves, r ≈ 0 at every one of the 8,930 points —
+> including the wall stencils fed by ghost cells, so momentum balance *and* every boundary condition
+> hold at once. The 17,859 numbers z found in this loop **are** the solution of this time step.
+> No network was ever trained. The dice from Step 2, the coordinates from Step 1, the physics from
+> Step 4 — and one judge. That is the whole machine.
+
 
 ### What it looks like inside the domain
 
 <img width="1448" height="1086" alt="step52" src="https://github.com/user-attachments/assets/e2b37fbb-6bb9-4f41-86d7-99ebda0b6faf" />
 
 
-*Figure 10 — The flow field healing across Newton iterations: the misplaced vortex of the first
+*Figure 9 — The flow field healing across Newton iterations: the misplaced vortex of the first
 guess reorganizes into the correct cavity flow while the residual maps fade to zero.*
 
 The first guess has the vortex misplaced and large residuals along the shear layer under the lid
@@ -215,7 +231,7 @@ convection and viscous terms cancel **at every point, including the ghost-fed wa
 <img width="1916" height="821" alt="insight" src="https://github.com/user-attachments/assets/a30bf18f-6247-4459-a9a7-08bdb07d6f58" />
 
 
-*Figure 11 — SPIRAL end to end: grid point → frozen features → weighted sum → residual → Newton.
+*Figure 10 — SPIRAL end to end: grid point → frozen features → weighted sum → residual → Newton.
 The “network” is never trained; the physics residual defines the problem; Newton solves it.*
 
 ---
