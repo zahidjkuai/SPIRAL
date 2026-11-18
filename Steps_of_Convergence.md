@@ -132,11 +132,16 @@ descent, SPIRAL does with *frozen random features + ~15 exact linear solves.*
 first-guess z they don't (r = −0.178, guilty). After Newton they do (r = 1.9×10⁻¹¹, free to go).*
 
 We take the flow field from Step 3 and ask Navier–Stokes one question, at **every point**:
-r = [u^new − u^history]/Δt + (u·∇)u − (1/Re)·∇²u ≟ 0
 
-└──── time ───┘ └ convection ┘ └─ viscous ─┘
+**r = [ uⁿᵉʷ − uʰⁱˢᵗᵒʳʸ ] / Δt   +   (u·∇)u   −   (1/Re) ∇²u   ≟   0**
 
-text
+| term | name | what it asks |
+|---|---|---|
+| [uⁿᵉʷ − uʰⁱˢᵗᵒʳʸ] / Δt | **time** | is the flow speeding up or slowing down here since the last time step? |
+| (u·∇)u | **convection** | the momentum fluid carries along with itself — the boss term in fast regions, and the only nonlinear one |
+| − (1/Re) ∇²u | **viscous** | friction ironing out velocity differences between neighbors — computed from a 5-point stencil around the point |
+
+*(Why no pressure? We evaluate the curl of the momentum equation — pressure has zero curl, so it simply vanishes from the courtroom.)*
 
 - **Time:** is the flow speeding up or slowing down here since the last time step?
 - **Convection:** the momentum fluid carries along with itself — the boss term in fast regions,
