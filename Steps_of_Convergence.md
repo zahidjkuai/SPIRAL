@@ -104,7 +104,7 @@ descent, SPIRAL does with *frozen random features + ~15 exact linear solves.*
 
 <img alt="step3" src="https://github.com/user-attachments/assets/02acea18-b392-418e-8643-f8b1198fb790" />
 
-*Figure 6 — One row, one set of weights, one sum: 5,953 ready numbers become the physical field A — and the only unknowns z finally appear.*
+*Figure 5 — One row, one set of weights, one sum: 5,953 ready numbers become the physical field A — and the only unknowns z finally appear.*
 
 - Take the feature row Φ(x\*) from Step 2, multiply each entry by its own weight zₖ, and
   **add everything**: A(x\*) = Σ zₖ aₖ. That single sum is the stream-function-like potential at x\*.
@@ -126,37 +126,48 @@ descent, SPIRAL does with *frozen random features + ~15 exact linear solves.*
 
 ## Step 4 · Residual: the physics check
 
-<img width="1312" height="1199" alt="step4" src="https://github.com/user-attachments/assets/4f04c39e-8f1c-4816-affb-6b02b5884e59" />
+<img alt="step4" src="https://github.com/user-attachments/assets/4f04c39e-8f1c-4816-affb-6b02b5884e59" />
 
+*Figure 6 — The courtroom scene: three physical terms must balance to zero at every point. With the
+first-guess z they don't (r = −0.178, guilty). After Newton they do (r = 1.9×10⁻¹¹, free to go).*
 
-*Figure 7 — The residual at one point: time + convection + viscous must sum to zero. Note the ghost
-cell sitting above the lid — the mirror rule feeds the wall condition into the viscous term.*
+We take the flow field from Step 3 and ask Navier–Stokes one question, at **every point**:
+r = [u^new − u^history]/Δt + (u·∇)u − (1/Re)·∇²u ≟ 0
 
-The momentum balance (curl taken, pressure gone), at every point:
+└──── time ───┘ └ convection ┘ └─ viscous ─┘
 
-```
-r  =  [u^new − u^history]/Δt   +   (u·∇)u   −   (1/Re)·∇²u   =  must be ZERO
-       └──── time ────┘          └ convection ┘   └── viscous ──┘
-```
+text
 
-- **Time:** how much the local velocity changed since the last time step.
-- **Convection:** momentum carried by the flow itself (the nonlinear term).
-- **Viscous:** friction spreading motion out, computed from the 5-point stencil.
+- **Time:** is the flow speeding up or slowing down here since the last time step?
+- **Convection:** the momentum fluid carries along with itself — the boss term in fast regions,
+  and the only nonlinear one.
+- **Viscous:** friction ironing out velocity differences between neighbors — computed from a
+  5-point stencil around the point.
 
-### Ghost cells — how the boundary conditions get in
+(Why no pressure? We evaluate the *curl* of the momentum equation — pressure has zero curl,
+so it simply vanishes from the courtroom.)
 
-![Ghost cells explained](images/ghost_cells_correct_deep.png)
+### Ghost cells — how the walls sneak into the math
 
-*Figure 8 — Wall condition → ghost value → stencil → viscous term → residual.*
+- Near a wall, that 5-point stencil asks for a value **outside the domain**. The wall answers
+  through a **mirror rule**: moving lid → u_ghost = −u_inside + 2U; fixed wall → u_ghost = −u_inside.
+  In both cases the average of inside and ghost equals the wall speed **exactly**.
+- These ghost values are **computed by the rule, never learned** — and they are the *only* way
+  boundary conditions enter the entire solver. No BC rows in the input, no penalty terms.
+- Subtle and important: as z changes during Newton, u_inside changes, so **the ghost values change
+  with it** — the boundary conditions are rebuilt inside r at every single iteration.
 
-- Near a wall the stencil needs a value **outside** the domain. The wall answers through the
-  **mirror rule**: moving lid u_ghost = −u_inside + 2U; fixed wall u_ghost = −u_inside, so the
-  average of inside and ghost equals the wall speed exactly.
-- Ghost values are **computed, never learned** — they are the only way boundary conditions enter
-  the solver, and they change together with z at every iteration.
+### The verdict
 
-With a first-guess z the three terms do not cancel (r ≠ 0). After Newton they cancel to ~10⁻¹¹.
-Repeated at every point, r is a **vector of thousands of numbers** — target: all zero.
+With the first-guess z (extrapolated from previous time steps): time −0.105, convection −0.560,
+viscous +0.488 → **r = −0.178 ≠ 0. Physics violated.** After Newton: +0.025 − 0.416 + 0.390 →
+**r = 1.9×10⁻¹¹ ≈ 0. Physics satisfied.** Repeat this audit at all 8,930 points, and r becomes a
+*vector* of 8,930 accusations. The target: acquit them all.
+
+> **The story so far:** we can generate any divergence-free flow with a z (Step 3), and now we have
+> a lie detector that says exactly *how wrong* that flow is at every point — including at the walls,
+> which testify through their ghost values. The only thing missing is a judge that corrects z until
+> every accusation reads zero. That judge has a 400-year-old name: **Newton. Step 5.**
 
 ---
 
