@@ -45,23 +45,18 @@ descent, SPIRAL does with *frozen random features + ~15 exact linear solves.*
 
 <table>
   <tr>
-    <td><img alt="step1" src="https://github.com/user-attachments/assets/d1ab75ca-8fbf-40ff-9835-ac4b9553055b" /></td>
-    <td><img alt="step11" src="https://github.com/user-attachments/assets/d1a8356d-e763-4c13-b545-e699e5cd6190" /></td>
+    <td><img alt="domain and inputs" src="https://github.com/user-attachments/assets/d1ab75ca-8fbf-40ff-9835-ac4b9553055b" /></td>
+    <td><img alt="ghost cells" src="https://github.com/user-attachments/assets/d1a8356d-e763-4c13-b545-e699e5cd6190" /></td>
   </tr>
   <tr>
-    <td align="center"><b>Step 1 · Domain → inputs</b></td>
-    <td align="center"><b>Step 2 · Hidden layer</b></td>
+    <td align="center"><b>Step 1 · Only inner points are inputs</b></td>
+    <td align="center"><b>Trailer for Step 4 · Walls enter as "ghost" values</b></td>
   </tr>
 </table>
 
-
-*Figure 2 — The lid-driven cavity and its input matrix.*
-
-- The **only inputs** are the coordinates of interior points: one row per point, x = (x, y, z).
-- **Wall points carry no unknowns** — the no-flow-through condition sets A = 0 there, so they are
-  not inputs.
-- Boundary conditions are **not** inputs either. They enter later, inside the residual, through
-  ghost values (see Step 4).
+> **The story so far:** the network is only handed one thing — the coordinates of points *inside* the cavity (left).
+> The walls? They never appear as inputs. They reappear later as mirrored "ghost" values (right) that smuggle
+> the lid speed and no-slip condition straight into the physics check — enforced exactly, never learned.
 
 ---
 
