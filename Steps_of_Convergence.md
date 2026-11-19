@@ -234,6 +234,12 @@ convection and viscous terms cancel **at every point, including the ghost-fed wa
 *Figure 10 — SPIRAL end to end: grid point → frozen features → weighted sum → residual → Newton.
 The “network” is never trained; the physics residual defines the problem; Newton solves it.*
 
+
+
+https://github.com/user-attachments/assets/a489d187-57e8-4b66-9c6e-fc379b715b02
+
+
+
 ---
 
 ## Variable glossary
